@@ -1,0 +1,3 @@
+#Excluir carpetas o archivos que no se utilicen en nuestro servidor
+/node_modules
+node_modules
