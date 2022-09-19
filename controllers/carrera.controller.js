@@ -1,17 +1,18 @@
 import models from "../models";
 
 export default{
-    addAlumno:async(req, res, next)=>{
+    addCarrera:async(req, res, next)=>{
         try {
-            const {matricula,nombre,edad,sexo,direccion, carrera}=req.body;
-            const agregarAlumno=new models.Alumnos({
-                matricula,nombre,edad,sexo,direccion, carrera
+            const {clave,nombre}=req.body;
+
+            const agregarCarrera=new models.Carreras({
+                clave,nombre
             });
-            agregarAlumno.filename=req.file.filename;
-            agregarAlumno.path='public/imagenes/'+req.file.filename;
+            agregarCarrera.filename=req.file.filename;
+            agregarCarrera.path='public/imagenes/'+req.file.filename;
             
-            const guardarAlumno=await agregarAlumno.save();
-            res.status(200).json(guardarAlumno);
+            const guardarCarrera=await agregarCarrera.save();
+            res.status(200).json(guardarCarrera);
             console.log(req.body);
         } catch (e) {
             res.status(500).send({
@@ -21,11 +22,11 @@ export default{
         }
     },
     
-    consultarAlumnos:async(req,res,next)=>{
+    consultarCarreras:async(req,res,next)=>{
         try {
-            const consultaAlumno=await models.Alumnos.find({carrera: req.params.carrera}).populate({path:'carrera'});
-            res.json(consultaAlumno);
-            console.log(consultaAlumno);
+            const consultaCarrera=await models.Carreras.find();
+            res.json(consultaCarrera);
+            console.log(consultaCarrera);
         } catch (error) {
             res.status(500).send({
                 message:"Ocurrio un error al conectar"
@@ -34,15 +35,15 @@ export default{
         }
     },
     
-    consultarUnAlumno:async(req,res,next)=>{
+    consultarUnaCarrera:async(req,res,next)=>{
         try {
-            const consultarOneAlumno=await models.Alumnos.findById(req.params.id);
-            if(!consultarOneAlumno){
+            const consultarOneCarrera=await models.Carreras.findById(req.params.id);
+            if(!consultarOneCarrera){
                 res.status(404).send({
                     message:"El registro no existe"
                 });
             }else{
-                res.status(200).json(consultarOneAlumno);
+                res.status(200).json(consultarOneCarrera);
             }
         } catch (error) {
             res.status(500).send({
@@ -51,9 +52,9 @@ export default{
             next(error);
         }
     },
-    deleteAlumno:async(req,res,next)=>{
+    deleteCarrera:async(req,res,next)=>{
         try {
-            const eliminar=await models.Alumnos.findByIdAndDelete(req.params.id);
+            const eliminar=await models.Carreras.findByIdAndDelete(req.params.id);
             res.status(200).json(eliminar);
         } catch (error) {
             res.status(500).send({
@@ -62,15 +63,15 @@ export default{
             next(error);
         }
     },
-    updateAlumno:async(req,res,next)=>{
+    updateCarrera:async(req,res,next)=>{
         try {
-            const {matricula,nombre,edad,sexo,direccion}=req.body;
+            const {clave,nombre}=req.body;
 
-            const updateUnAlumno={
-                matricula,nombre,edad,sexo,direccion
+            const updatecarrera={
+                clave,nombre
             }
 
-            const update=await models.Alumnos.findByIdAndUpdate(req.params.id, updateUnAlumno);
+            const update=await models.Carreras.findByIdAndUpdate(req.params.id, updatecarrera);
             res.json({
                 message:"Datos actualizados correctamente" 
             });

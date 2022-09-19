@@ -6,6 +6,9 @@ const alumnos=new Schema({
     edad:Number,
     sexo:String,
     direccion:String,
+    carrera:{type: Schema.Types.ObjectId, ref:'carreras'},
+    filename:String,
+    path:String,
     crearAc:{type:Date, default: Date.now}
 });
 
